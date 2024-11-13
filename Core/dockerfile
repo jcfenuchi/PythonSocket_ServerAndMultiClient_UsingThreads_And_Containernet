@@ -1,0 +1,8 @@
+FROM python:3.12
+
+RUN apt-get update && apt-get install -y net-tools iputils-ping iproute2
+
+WORKDIR /Core
+COPY main.py .
+
+CMD [ "python3", "main.py" ]
