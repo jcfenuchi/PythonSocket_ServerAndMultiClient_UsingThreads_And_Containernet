@@ -1,6 +1,8 @@
 FROM python:3.12
 
-RUN apt-get update && apt-get install -y net-tools iputils-ping iproute2
+RUN apt-get update && apt-get install -y net-tools iputils-ping iproute2 
+RUN pip install flask toml
 
 WORKDIR /Minion
 COPY main.py .
+COPY app.py .

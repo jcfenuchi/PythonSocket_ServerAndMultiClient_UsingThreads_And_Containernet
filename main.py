@@ -12,7 +12,6 @@ from mininet.node import Controller
 from mininet.log import info, setLogLevel
 from mn_wifi.link import wmediumd
 from mn_wifi.wmediumdConnector import interference
-from os import system
 
 
 setLogLevel('info')

@@ -1,12 +1,28 @@
 import socket
 from time import sleep
 from sys import argv
+from app import APP
+import threading
 
 class MIS_Socket:
     def __init__(self, CoreIp, CorePort):
+        self.app = APP()
         self.__coreIP, self.__corePort = CoreIp,CorePort
         self.__sock = None
+        
+        self.create_app()
         self.Minion_routine()
+
+
+
+    def create_app(self):
+        
+        self.app.environment.update({'CORE_IP':self.__coreIP})
+        self.app.environment.update({'CORE_PORT':self.__corePort})
+        thread = threading.Thread(target=self.app.run, kwargs={"host":"0.0.0.0"})
+        thread.daemon = True
+        thread.start()
+        print("works")
 
     def create_socket(self):
         self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

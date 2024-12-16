@@ -1,13 +1,23 @@
 from threading import Thread, Event
 import socket
-
+from app import APP
 
 class Core_Socket:
     def __init__(self, server_IpAddress,server_Port):
+        self.app = APP()
         self.clients_conected = {}
         self.__coreIP = server_IpAddress
         self.__corePort = server_Port
+        self.create_app()
         self.create_socket()
+
+    def create_app(self):
+        self.app.environment.update({'CORE_IP':self.__coreIP})
+        self.app.environment.update({'CORE_PORT':self.__corePort})
+        thread = Thread(target=self.app.run, kwargs={"host":"0.0.0.0"})
+        thread.daemon = True
+        thread.start()
+        print("works")
         
     def create_socket(self):
         self.__socket = socket.socket()
@@ -28,7 +38,6 @@ class Core_Socket:
           except Exception as ex:
             print(f'Error: {str(ex)}')
              
-
     def client_handle_connection(self, event, client_sock, address):
         print(f"{client_sock}, {address} aceita")
         loop_condition = 0
